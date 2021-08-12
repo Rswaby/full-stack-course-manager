@@ -27,9 +27,10 @@ function App() {
           <Route exact path="/" render={() => (<CourseList />)} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
-          <Route path="/newcourse" component={NewCourse} />
-          <Route path="/updatecourse" component={UpdateCourse} />
-          <Route path="/coursedetails" component={CourseDetails} />
+          <Route path="/signout" component={SignUp} />
+          <Route path="/courses/create" component={NewCourse} />
+          <Route path="/courses/:id" component={CourseDetails} />
+          <Route path="/courses/:id/update" component={UpdateCourse} />
         </Switch>
       </main>
     </BrowserRouter>
