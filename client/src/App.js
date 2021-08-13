@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header';
@@ -10,15 +10,15 @@ import CourseList from './components/CourseList';
 import UpdateCourse from './components/UpdateCourse';
 import CourseDetails from './components/CourseDetails';
 
-import RestApiClient from './RestApiClient';
+// import RestApiClient from './RestApiClient';
 
-const api = new RestApiClient();
+// const api = new RestApiClient();
 function App() {
-  useEffect(() => {
-    console.log('testing cors with useEffect');
-    api.get('courses/')
-      .then((data) => console.log(data));
-  }, []);
+  // useEffect(() => {
+  //   console.log('testing cors with useEffect');
+  //   api.get('courses/')
+  //     .then((data) => console.log(data));
+  // }, []);
   return (
     <BrowserRouter>
       <main>

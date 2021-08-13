@@ -1,30 +1,66 @@
 const SUCCESS = 200;
 const UNAUTHORIZED = 401;
-// TODO: convert class to singleton because it might be a better practise.
+const BADREQUEST = 400;
+// TODO: convert class to singleton
 class RestApiClient {
+  /**
+   *
+   * @param {String}  endpoint The endpoint to the resource on server
+   * @param {String}  _method  GET | POST | PUT | DELETE
+   * @param {Boolean} auth  determinds if resource requires authenitcation,
+   * @param {Object}  creds  username and password
+   * @returns promise
+   */
   // eslint-disable-next-line class-methods-use-this
-  makeApiCall(endpoint, _method = 'GET') {
+  makeApiCall(endpoint, method = 'GET', body = null, auth = false, creds = null) {
     const requestBuilder = {
-      _method,
+      method,
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
       },
     };
+    if (body !== null) {
+      requestBuilder.body = JSON.stringify(body);
+    }
+
+    if (auth) {
+      // TODO: find and alternative to btoa
+      const encodedCredentials = btoa(`${creds.username}:${creds.password}`);
+      requestBuilder.headers.Authorization = `Basic ${encodedCredentials}`;
+    }
+    console.log(`[RestApiClient]:: sending to ${endpoint}`);
+    console.log(`[RestApiClient]:: request-> ${requestBuilder}`);
     return fetch(endpoint, requestBuilder);
   }
+  /**
+   *
+   * @param {string} username user email
+   * @param {string} password user password
+   * @returns User
+   */
 
-  async get(path) {
-    const response = await this.makeApiCall(path);
+  async getUser(username, password) {
+    const response = await this.makeApiCall('/users', 'GET', null, true, { username, password });
     if (response.status === SUCCESS) {
       return response.json()
         .then((data) => data);
     // eslint-disable-next-line no-else-return
     } else if (response.status === UNAUTHORIZED) {
-      console.warn(`unable to access ${path}`);
+      console.warn('[RestApiClient]::unable to access resource');
       return null;
-    } else {
-      throw new Error();
-    }
+    } else throw new Error();
+  }
+
+  async createUser(user) {
+    const response = await this.makeApiCall('/users', 'POST', user);
+    if (response.status === SUCCESS) {
+      return response.json()
+        .then((data) => data);
+    // eslint-disable-next-line no-else-return
+    } else if (response.status === BADREQUEST) {
+      console.warn('[RestApiClient]::request was malformed');
+      return response.json().then((data) => data.errors);
+    } else throw new Error();
   }
 }
 
