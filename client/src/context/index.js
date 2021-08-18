@@ -8,6 +8,7 @@ export const Context = React.createContext();
 const restClient = new RestApiClient();
 
 export const Provider = (props) => {
+  // eslint-disable-next-line react/prop-types
   const { children } = props;
   const cookie = Cookies.get('authenticatedUser');
   const initialState = !isEmpty(cookie) ? JSON.parse(cookie) : null;
@@ -31,6 +32,7 @@ export const Provider = (props) => {
 
   return (
     <Context.Provider value={{
+      restClient,
       authenticatedUser,
       actions: {
         signIn: handleSignIn,

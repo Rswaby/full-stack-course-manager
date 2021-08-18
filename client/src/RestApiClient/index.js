@@ -62,6 +62,18 @@ class RestApiClient {
       return response.json().then((data) => data.errors);
     } else throw new Error();
   }
+
+  async getAllCourses() {
+    const response = await this.makeApiCall('/courses');
+    if (response.status === SUCCESS) {
+      return response.json()
+        .then((data) => data);
+    // eslint-disable-next-line no-else-return
+    } else if (response.status === BADREQUEST) {
+      console.warn('[RestApiClient]::request was malformed');
+      return response.json().then((data) => data.errors);
+    } else throw new Error();
+  }
 }
 
 export default RestApiClient;

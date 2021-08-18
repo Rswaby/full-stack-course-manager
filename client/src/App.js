@@ -24,7 +24,7 @@ function App() {
       <main>
         <Header />
         <Switch>
-          <Route exact path="/" render={() => (<CourseList />)} />
+          <Route exact path="/" component={CourseList} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/signout" component={SignUp} />
