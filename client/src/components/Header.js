@@ -12,7 +12,7 @@ function Header() {
         </h1>
         <nav>
           {authenticatedUser ? (
-            <ul className="header--signedout">
+            <ul className="header--signedin">
               <li><span>{`Hello ${authenticatedUser.firstName}`}</span></li>
               <li><Link to="/signout">Sign Out</Link></li>
             </ul>

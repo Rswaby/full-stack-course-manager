@@ -44,3 +44,4 @@ export const Provider = (props) => {
     </Context.Provider>
   );
 };
+export const { Consumer } = Context;
