@@ -1,4 +1,5 @@
 const SUCCESS = 200;
+const SUCCESS_CREATE = 201;
 const UNAUTHORIZED = 401;
 const BADREQUEST = 400;
 // TODO: convert class to singleton
@@ -28,8 +29,7 @@ class RestApiClient {
       const encodedCredentials = btoa(`${creds.username}:${creds.password}`);
       requestBuilder.headers.Authorization = `Basic ${encodedCredentials}`;
     }
-    console.log(`[RestApiClient]:: sending to ${endpoint}`);
-    console.log(`[RestApiClient]:: request-> ${requestBuilder}`);
+    console.log(`[RestApiClient]:: sending ${method} request to ${endpoint}`);
     return fetch(endpoint, requestBuilder);
   }
   /**
@@ -53,13 +53,12 @@ class RestApiClient {
 
   async createUser(user) {
     const response = await this.makeApiCall('/users', 'POST', user);
-    if (response.status === SUCCESS) {
-      return response.json()
-        .then((data) => data);
+    if (response.status === SUCCESS || response.status === SUCCESS_CREATE) {
+      return {};
     // eslint-disable-next-line no-else-return
     } else if (response.status === BADREQUEST) {
       console.warn('[RestApiClient]::request was malformed');
-      return response.json().then((data) => data.errors);
+      return response.json().then((data) => data);
     } else throw new Error();
   }
 

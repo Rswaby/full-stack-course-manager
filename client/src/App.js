@@ -5,20 +5,13 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Header from './components/Header';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
+import SignOut from './components/SignOut';
 import NewCourse from './components/NewCourse';
 import CourseList from './components/CourseList';
 import UpdateCourse from './components/UpdateCourse';
 import CourseDetails from './components/CourseDetails';
 
-// import RestApiClient from './RestApiClient';
-
-// const api = new RestApiClient();
 function App() {
-  // useEffect(() => {
-  //   console.log('testing cors with useEffect');
-  //   api.get('courses/')
-  //     .then((data) => console.log(data));
-  // }, []);
   return (
     <BrowserRouter>
       <main>
@@ -27,7 +20,7 @@ function App() {
           <Route exact path="/" component={CourseList} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
-          <Route path="/signout" component={SignUp} />
+          <Route path="/signout" component={SignOut} />
           <Route path="/courses/create" component={NewCourse} />
           <Route path="/courses/:id" component={CourseDetails} />
           <Route path="/courses/:id/update" component={UpdateCourse} />
