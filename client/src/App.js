@@ -9,6 +9,7 @@ import SignOut from './components/SignOut';
 import NewCourse from './components/NewCourse';
 import CourseList from './components/CourseList';
 import UpdateCourse from './components/UpdateCourse';
+import PrivateRoute from './components/PrivateRoute';
 import CourseDetails from './components/CourseDetails';
 
 function App() {
@@ -21,9 +22,9 @@ function App() {
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/signout" component={SignOut} />
-          <Route path="/courses/create" component={NewCourse} />
+          <PrivateRoute path="/courses/create" component={NewCourse} />
           <Route path="/courses/:id" component={CourseDetails} />
-          <Route path="/courses/:id/update" component={UpdateCourse} />
+          <PrivateRoute path="/courses/:id/update" component={UpdateCourse} />
         </Switch>
       </main>
     </BrowserRouter>
