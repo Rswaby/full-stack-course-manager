@@ -1,4 +1,4 @@
-# service_api
+# rest_api
 A simple express app that performs basic crud commands using squelize as an orm.
 This app creates new users and new courses. users and course share a relatioship. 
 ```json
