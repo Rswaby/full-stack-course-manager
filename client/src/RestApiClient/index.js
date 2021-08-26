@@ -32,14 +32,16 @@ class RestApiClient {
       const encodedCredentials = btoa(`${creds.username}:${creds.password}`);
       requestBuilder.headers.Authorization = `Basic ${encodedCredentials}`;
     }
+    // eslint-disable-next-line no-console
     console.log(`[RestApiClient]:: sending ${method} request to ${endpoint}`);
     return fetch(endpoint, requestBuilder);
   }
   /**
-   *
+   * This is used to authenticate a user by making a call
+   * to the rest api and checking if user is preset
    * @param {string} username user email
    * @param {string} password user password
-   * @returns User
+   * @returns {Object} User
    */
 
   async getUser(username, password) {
@@ -49,13 +51,13 @@ class RestApiClient {
         .then((data) => data);
     // eslint-disable-next-line no-else-return
     } else if (response.status === UNAUTHORIZED) {
-      console.warn('[RestApiClient]::unable to access resource');
       return null;
     } else throw new Error();
   }
 
   /**
-   *
+   * This Method is used to create a user by making a
+   * call to the rest api with new user obj
    * @param {Object} user
    * @returns {} || Error
    */
@@ -65,12 +67,11 @@ class RestApiClient {
       return {};
     // eslint-disable-next-line no-else-return
     } else if (response.status === BADREQUEST) {
-      console.warn('[RestApiClient]::request was malformed');
       return response.json().then((data) => data);
     } else throw new Error();
   }
   /**
-   *
+   * Makes a get request to get all course available in on the server
    * @returns List<Courses>
    */
 
@@ -81,10 +82,14 @@ class RestApiClient {
         .then((data) => data);
     // eslint-disable-next-line no-else-return
     } else if (response.status === BADREQUEST) {
-      console.warn('[RestApiClient]::request was malformed');
       return response.json().then((data) => data.errors);
     } else throw new Error();
   }
+  /**
+   * Get a course from the server with id = :id
+   * @param {Integer} id : Course Id
+   * @returns {Object} Course
+   */
 
   async getCourseById(id) {
     const response = await this.makeApiCall(`/courses/${id}`);
@@ -92,18 +97,22 @@ class RestApiClient {
       return response.json()
         .then((data) => data);
     } if (response.status === BADREQUEST) {
-      console.warn('[RestApiClient]::request was malformed');
       return response.json().then((data) => data.errors);
     }
     throw new Error();
   }
+  /**
+   * Makes a call to localhost server to update an existing course
+   * @param {Object} course
+   * @param {Object} creds
+   * @returns {} || errors (if request was incorrect or missing permission)
+   */
 
   async updateCourse(course, creds) {
     const response = await this.makeApiCall(`/courses/${course.id}`, 'PUT', course, true, creds);
     if (response.status === SUCCESS_UPDATE || response.status === SUCCESS) {
       return {};
     } if (response.status === BADREQUEST) {
-      console.warn('[RestApiClient]::request was malformed');
       return response.json().then((data) => data);
     } if (response.status === INSUFFICIENT_PERMISSION) {
       return response.json().then((data) => {
@@ -115,12 +124,24 @@ class RestApiClient {
     return null;
   }
 
+  /**
+  * create a new course with shape:
+  * {
+  *  title: STRING | required
+  *  description: STRING | required
+  *  estimatedTime: STRING | optional
+  *  materialsNeeded: STRING | optional
+  *  userId: INTEGER | required
+  * }
+  * @param {Object} course
+  * @param {Object} creds
+  * @returns
+  */
   async CreateCourse(course, creds) {
     const response = await this.makeApiCall('/courses', 'POST', course, true, creds);
     if (response.status === SUCCESS_CREATE || response.status === SUCCESS) {
       return {};
     } if (response.status === BADREQUEST) {
-      console.warn('[RestApiClient]::request was malformed');
       return response.json().then((data) => data);
     } if (response.status === INSUFFICIENT_PERMISSION || response.status === UNAUTHORIZED) {
       return response.json().then((data) => {
@@ -131,13 +152,18 @@ class RestApiClient {
     }
     return null;
   }
+  /**
+   * Delete a course with id = :id
+   * @param {Integer} id
+   * @param {object} creds
+   * @returns
+   */
 
   async deleteCourseById(id, creds) {
     const response = await this.makeApiCall(`/courses/${id}`, 'DELETE', null, true, creds);
     if (response.status === SUCCESS_UPDATE || response.status === SUCCESS) {
       return {};
     } if (response.status === BADREQUEST) {
-      console.warn('[RestApiClient]::request was malformed');
       return response.json().then((data) => data);
     } if (response.status === INSUFFICIENT_PERMISSION || response.status === UNAUTHORIZED) {
       return response.json().then((data) => {

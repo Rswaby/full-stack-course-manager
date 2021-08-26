@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { isEmpty } from 'lodash';
+import { isEmpty, uniqueId } from 'lodash';
 import { Context } from '../context';
 
 function SignUp() {
@@ -12,7 +12,10 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [errorList, setErrors] = useState([]);
   const history = useHistory();
-
+  /**
+   * based on the event.target.name update the state
+   * @param {Object} event
+   */
   const handleChange = (event) => {
     const elementName = event.target.name;
     const elementValue = event.target.value;
@@ -44,6 +47,10 @@ function SignUp() {
     }
     return value;
   };
+  /**
+   * Creates user then signs them in
+   * @param {Object} event
+   */
   const handleSubmit = (event) => {
     event.preventDefault();
     const newUser = {
@@ -63,8 +70,14 @@ function SignUp() {
         }
       });
   };
+  /**
+   * TODO: convert to a function
+   * @returns JSX for valiation errors if they exit
+   */
   const displayValidationErrors = () => {
-    const listItems = errorList.map((error, index) => <li key={index}>{error.message}</li>);
+    const listItems = errorList.map(
+      (error, index) => <li key={uniqueId(index)}>{error.message}</li>,
+    );
     return (
       <div className="validation--errors">
         <h3>Validation Errors</h3>

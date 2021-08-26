@@ -15,14 +15,19 @@ export const Provider = (props) => {
   const [authenticatedUser, setUser] = useState(initialState);
   // since authenticatedUser is define in provider
   // scope create functions inside to use it
-
+  /**
+   * Takes username and password from user and authenticates against DB
+   * @param {String} username
+   * @param {String} password
+   * @returns
+   */
   const handleSignIn = async (username, password) => {
     const user = await restClient.getUser(username, password);
     if (isObject(user)) {
       /**
        * Important!
-       * only doing this for practice, in an I deal world api should return
-       * and auth token
+       * only doing this for practice, in an Ideal world Rest api should return
+       * an auth token
        */
       user.password = password;
       setUser(user);
@@ -31,6 +36,9 @@ export const Provider = (props) => {
     return user;
   };
 
+  /**
+   * Clear user data from browser
+   */
   const handleSignOut = async () => {
     setUser(null);
     Cookies.remove('authenticatedUser');
