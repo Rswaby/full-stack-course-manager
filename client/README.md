@@ -1,4 +1,4 @@
-# Client (React FrontEnt)
+# Client (React FrontEnd)
 A simple Fron ent app that performs basic operations on Course management. This app creates new users and new courses. users and course share a relatioship and only users who created a course will be able to update/delete it.
 course data format passed between UI and Backend:
 
