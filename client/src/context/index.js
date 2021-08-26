@@ -19,6 +19,12 @@ export const Provider = (props) => {
   const handleSignIn = async (username, password) => {
     const user = await restClient.getUser(username, password);
     if (isObject(user)) {
+      /**
+       * Important!
+       * only doing this for practice, in an I deal world api should return
+       * and auth token
+       */
+      user.password = password;
       setUser(user);
       Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 });
     }

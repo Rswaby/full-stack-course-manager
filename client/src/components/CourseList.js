@@ -34,8 +34,6 @@ function CourseList() {
     );
     return coursedata;
   };
-  console.log(courses);
-  console.log(isLoading);
   return (
     <div className="wrap main--grid">
       { !isLoading ? (displayCourse()) : (<p>loading..</p>)}

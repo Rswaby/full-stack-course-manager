@@ -1,6 +1,8 @@
 const SUCCESS = 200;
 const SUCCESS_CREATE = 201;
+const SUCCESS_UPDATE = 204;
 const UNAUTHORIZED = 401;
+const INSUFFICIENT_PERMISSION = 403;
 const BADREQUEST = 400;
 // TODO: convert class to singleton
 class RestApiClient {
@@ -51,6 +53,11 @@ class RestApiClient {
     } else throw new Error();
   }
 
+  /**
+   *
+   * @param {Object} user
+   * @returns {} || Error
+   */
   async createUser(user) {
     const response = await this.makeApiCall('/users', 'POST', user);
     if (response.status === SUCCESS || response.status === SUCCESS_CREATE) {
@@ -61,6 +68,10 @@ class RestApiClient {
       return response.json().then((data) => data);
     } else throw new Error();
   }
+  /**
+   *
+   * @returns List<Courses>
+   */
 
   async getAllCourses() {
     const response = await this.makeApiCall('/courses');
@@ -73,6 +84,51 @@ class RestApiClient {
       return response.json().then((data) => data.errors);
     } else throw new Error();
   }
-}
 
+  async getCourseById(id) {
+    const response = await this.makeApiCall(`/courses/${id}`);
+    if (response.status === SUCCESS) {
+      return response.json()
+        .then((data) => data);
+    } if (response.status === BADREQUEST) {
+      console.warn('[RestApiClient]::request was malformed');
+      return response.json().then((data) => data.errors);
+    }
+    throw new Error();
+  }
+
+  async updateCourse(course, creds) {
+    const response = await this.makeApiCall(`/courses/${course.id}`, 'PUT', course, true, creds);
+    if (response.status === SUCCESS_UPDATE || response.status === SUCCESS) {
+      return {};
+    } if (response.status === BADREQUEST) {
+      console.warn('[RestApiClient]::request was malformed');
+      return response.json().then((data) => data);
+    } if (response.status === INSUFFICIENT_PERMISSION) {
+      return response.json().then((data) => {
+        const errors = [];
+        errors.push(data);
+        return errors;
+      });
+    }
+    return null;
+  }
+
+  async CreateCourse(course, creds) {
+    const response = await this.makeApiCall('/courses', 'POST', course, true, creds);
+    if (response.status === SUCCESS_CREATE || response.status === SUCCESS) {
+      return {};
+    } if (response.status === BADREQUEST) {
+      console.warn('[RestApiClient]::request was malformed');
+      return response.json().then((data) => data);
+    } if (response.status === INSUFFICIENT_PERMISSION || response.status === UNAUTHORIZED) {
+      return response.json().then((data) => {
+        const errors = [];
+        errors.push(data);
+        return errors;
+      });
+    }
+    return null;
+  }
+}
 export default RestApiClient;

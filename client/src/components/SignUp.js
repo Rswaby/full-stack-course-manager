@@ -65,9 +65,19 @@ function SignUp() {
         }
       });
   };
+  const displayValidationErrors = () => {
+    const listItems = errorList.map((error, index) => <li key={index}>{error.message}</li>);
+    return (
+      <div className="validation--errors">
+        <h3>Validation Errors</h3>
+        <ul>{listItems}</ul>
+      </div>
+    );
+  };
   return (
     <div className="form--centered">
       <h2>Sign Up</h2>
+      {errorList.length > 0 ? displayValidationErrors() : null}
       <form onSubmit={handleSubmit}>
         <label>First Name</label>
         <input
