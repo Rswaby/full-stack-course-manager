@@ -6,7 +6,7 @@ import Header from './components/Header';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import SignOut from './components/SignOut';
-import NewCourse from './components/NewCourse';
+import NewCourse from './components/NewCourse';// CreatCourse
 import CourseList from './components/CourseList';
 import UpdateCourse from './components/UpdateCourse';
 import PrivateRoute from './components/PrivateRoute';
