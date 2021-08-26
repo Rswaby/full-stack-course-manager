@@ -32,6 +32,7 @@ class RestApiClient {
       const encodedCredentials = btoa(`${creds.username}:${creds.password}`);
       requestBuilder.headers.Authorization = `Basic ${encodedCredentials}`;
     }
+    // eslint-disable-next-line no-console
     console.log(`[RestApiClient]:: sending ${method} request to ${endpoint}`);
     return fetch(endpoint, requestBuilder);
   }
@@ -49,7 +50,6 @@ class RestApiClient {
         .then((data) => data);
     // eslint-disable-next-line no-else-return
     } else if (response.status === UNAUTHORIZED) {
-      console.warn('[RestApiClient]::unable to access resource');
       return null;
     } else throw new Error();
   }
@@ -65,7 +65,6 @@ class RestApiClient {
       return {};
     // eslint-disable-next-line no-else-return
     } else if (response.status === BADREQUEST) {
-      console.warn('[RestApiClient]::request was malformed');
       return response.json().then((data) => data);
     } else throw new Error();
   }
@@ -81,7 +80,6 @@ class RestApiClient {
         .then((data) => data);
     // eslint-disable-next-line no-else-return
     } else if (response.status === BADREQUEST) {
-      console.warn('[RestApiClient]::request was malformed');
       return response.json().then((data) => data.errors);
     } else throw new Error();
   }
@@ -92,7 +90,6 @@ class RestApiClient {
       return response.json()
         .then((data) => data);
     } if (response.status === BADREQUEST) {
-      console.warn('[RestApiClient]::request was malformed');
       return response.json().then((data) => data.errors);
     }
     throw new Error();
@@ -103,7 +100,6 @@ class RestApiClient {
     if (response.status === SUCCESS_UPDATE || response.status === SUCCESS) {
       return {};
     } if (response.status === BADREQUEST) {
-      console.warn('[RestApiClient]::request was malformed');
       return response.json().then((data) => data);
     } if (response.status === INSUFFICIENT_PERMISSION) {
       return response.json().then((data) => {
@@ -120,7 +116,6 @@ class RestApiClient {
     if (response.status === SUCCESS_CREATE || response.status === SUCCESS) {
       return {};
     } if (response.status === BADREQUEST) {
-      console.warn('[RestApiClient]::request was malformed');
       return response.json().then((data) => data);
     } if (response.status === INSUFFICIENT_PERMISSION || response.status === UNAUTHORIZED) {
       return response.json().then((data) => {
@@ -137,7 +132,6 @@ class RestApiClient {
     if (response.status === SUCCESS_UPDATE || response.status === SUCCESS) {
       return {};
     } if (response.status === BADREQUEST) {
-      console.warn('[RestApiClient]::request was malformed');
       return response.json().then((data) => data);
     } if (response.status === INSUFFICIENT_PERMISSION || response.status === UNAUTHORIZED) {
       return response.json().then((data) => {

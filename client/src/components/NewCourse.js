@@ -4,6 +4,7 @@ import React, {
   useContext,
 } from 'react';
 import { useHistory } from 'react-router-dom';
+import { uniqueId } from 'lodash';
 import { Context } from '../context';
 
 function NewCourse() {
@@ -67,7 +68,9 @@ function NewCourse() {
     });
   };
   const displayValidationErrors = () => {
-    const listItems = errorList.map((error, index) => <li key={index}>{error.message}</li>);
+    const listItems = errorList.map(
+      (error, index) => <li key={uniqueId(index)}>{error.message}</li>,
+    );
     return (
       <div className="validation--errors">
         <h3>Validation Errors</h3>

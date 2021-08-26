@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { isEmpty } from 'lodash';
+import { isEmpty, uniqueId } from 'lodash';
 import { Context } from '../context';
 
 function SignUp() {
@@ -64,7 +64,9 @@ function SignUp() {
       });
   };
   const displayValidationErrors = () => {
-    const listItems = errorList.map((error, index) => <li key={index}>{error.message}</li>);
+    const listItems = errorList.map(
+      (error, index) => <li key={uniqueId(index)}>{error.message}</li>,
+    );
     return (
       <div className="validation--errors">
         <h3>Validation Errors</h3>

@@ -5,6 +5,7 @@ import React, {
   useContext,
 } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { uniqueId } from 'lodash';
 import { Context } from '../context';
 
 function UpdateCourse() {
@@ -14,7 +15,7 @@ function UpdateCourse() {
   const [description, setDescription] = useState('');
   const [materialsNeeded, setMaterials] = useState('');
   const [estimatedTime, setEstimatedTime] = useState('');
-  const [errorlist, setErrors] = useState([]);
+  const [errorList, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
   const { id } = useParams();
@@ -74,10 +75,21 @@ function UpdateCourse() {
       }
     });
   };
-  console.log(errorlist);
+  const displayValidationErrors = () => {
+    const listItems = errorList.map(
+      (error, index) => <li key={uniqueId(index)}>{error.message}</li>,
+    );
+    return (
+      <div className="validation--errors">
+        <h3>Validation Errors</h3>
+        <ul>{listItems}</ul>
+      </div>
+    );
+  };
   return (
     <div className="wrap">
       <h2>Update Course</h2>
+      {errorList.length > 0 ? displayValidationErrors() : null}
       {!isLoading ? (
         <form onSubmit={handleSubmit}>
           <div className="main--flex">
