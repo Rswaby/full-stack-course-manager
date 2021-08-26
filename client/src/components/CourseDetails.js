@@ -65,13 +65,27 @@ function CourseDetails() {
       </div>
     );
   };
+  const renderUpdateAndDelete = () => {
+    if (authenticatedUser && authenticatedUser.id === course.User.id) {
+      return (
+        <Fragment>
+          <Link className="button" to={`/courses/${id}/update`}>Update Course</Link>
+          <Link className="button" to="#" onClick={handleDelete}>Delete Course</Link>
+          <Link className="button button-secondary" to="/">Return to List</Link>
+        </Fragment>
+      );
+    }
+    return (
+      <Fragment>
+        <Link className="button button-secondary" to="/">Return to List</Link>
+      </Fragment>
+    );
+  };
   return (
     <Fragment>
       <div className="actions--bar">
         <div className="wrap">
-          <Link className="button" to={`/courses/${id}/update`}>Update Course</Link>
-          <Link className="button" to="#" onClick={handleDelete}>Delete Course</Link>
-          <Link className="button button-secondary" to="/">Return to List</Link>
+          {isLoading ? null : renderUpdateAndDelete()}
         </div>
       </div>
       {isLoading ? (<p>loading..</p>) : (
