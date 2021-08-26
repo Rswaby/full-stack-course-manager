@@ -99,7 +99,7 @@ function UpdateCourse() {
           <button className="button button-secondary" type="button" onClick={() => history.push(`/courses/${id}`)}>Cancel</button>
         </form>
       )
-        : (<p>loading..</p>)}
+        : (null)}
     </div>
   );
 }

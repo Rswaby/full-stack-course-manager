@@ -9,7 +9,8 @@ class RestApiClient {
   /**
    *
    * @param {String}  endpoint The endpoint to the resource on server
-   * @param {String}  _method  GET | POST | PUT | DELETE
+   * @param {String}  method  GET | POST | PUT | DELETE
+   * @param {Object}  body request body
    * @param {Boolean} auth  determinds if resource requires authenitcation,
    * @param {Object}  creds  username and password
    * @returns promise
@@ -117,6 +118,23 @@ class RestApiClient {
   async CreateCourse(course, creds) {
     const response = await this.makeApiCall('/courses', 'POST', course, true, creds);
     if (response.status === SUCCESS_CREATE || response.status === SUCCESS) {
+      return {};
+    } if (response.status === BADREQUEST) {
+      console.warn('[RestApiClient]::request was malformed');
+      return response.json().then((data) => data);
+    } if (response.status === INSUFFICIENT_PERMISSION || response.status === UNAUTHORIZED) {
+      return response.json().then((data) => {
+        const errors = [];
+        errors.push(data);
+        return errors;
+      });
+    }
+    return null;
+  }
+
+  async deleteCourseById(id, creds) {
+    const response = await this.makeApiCall(`/courses/${id}`, 'DELETE', null, true, creds);
+    if (response.status === SUCCESS_UPDATE || response.status === SUCCESS) {
       return {};
     } if (response.status === BADREQUEST) {
       console.warn('[RestApiClient]::request was malformed');

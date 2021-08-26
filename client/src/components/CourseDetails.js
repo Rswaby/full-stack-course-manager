@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/jsx-fragments */
 import React, {
   Fragment,
@@ -5,14 +6,16 @@ import React, {
   useEffect,
   useContext,
 } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import { Context } from '../context';
 
 function CourseDetails() {
-  const { restClient } = useContext(Context);
+  const { restClient, authenticatedUser } = useContext(Context);
   const [course, setCourse] = useState({});
+  const [errorList, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
   const { id } = useParams();
 
   useEffect(() => {
@@ -39,17 +42,41 @@ function CourseDetails() {
     }
     return null;
   };
+  const handleDelete = () => {
+    // Not For Production
+    const creds = {
+      username: authenticatedUser.emailAddress,
+      password: authenticatedUser.password,
+    };
+    restClient.deleteCourseById(id, creds).then((errors) => {
+      if (errors.length) {
+        setErrors(errors);
+      } else {
+        history.push('/');
+      }
+    });
+  };
+  const displayValidationErrors = () => {
+    const listItems = errorList.map((error, index) => <li key={index}>{error.message}</li>);
+    return (
+      <div className="validation--errors">
+        <h3>Validation Errors</h3>
+        <ul>{listItems}</ul>
+      </div>
+    );
+  };
   return (
     <Fragment>
       <div className="actions--bar">
         <div className="wrap">
           <Link className="button" to={`/courses/${id}/update`}>Update Course</Link>
-          <Link className="button" to="/delete">Delete Course</Link>
+          <Link className="button" to="#" onClick={handleDelete}>Delete Course</Link>
           <Link className="button button-secondary" to="/">Return to List</Link>
         </div>
       </div>
       {isLoading ? (<p>loading..</p>) : (
         <div className="wrap">
+          {errorList.length > 0 ? displayValidationErrors() : null}
           <h2>Course Details</h2>
           <div className="main--flex">
             <div>

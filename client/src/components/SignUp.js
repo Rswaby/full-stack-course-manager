@@ -57,8 +57,6 @@ function SignUp() {
         if (errors.length) {
           setErrors(errors);
         } else {
-          console.log('user was created succesfully');
-          console.log('signing in user');
           actions.signIn(emailAddress, password).then(() => {
             history.push('/');
           });
