@@ -75,6 +75,10 @@ function UpdateCourse() {
       }
     });
   };
+  /**
+   * TODO: convert to a function
+   * @returns JSX for valiation errors if they exit
+   */
   const displayValidationErrors = () => {
     const listItems = errorList.map(
       (error, index) => <li key={uniqueId(index)}>{error.message}</li>,

@@ -11,6 +11,7 @@ import CourseList from './components/CourseList';
 import UpdateCourse from './components/UpdateCourse';
 import PrivateRoute from './components/PrivateRoute';
 import CourseDetails from './components/CourseDetails';
+import NotFound from './components/exceptions/NotFound';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/signout" component={SignOut} />
+          <Route component={NotFound} />
         </Switch>
       </main>
     </BrowserRouter>
