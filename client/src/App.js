@@ -15,16 +15,16 @@ import CourseDetails from './components/CourseDetails';
 function App() {
   return (
     <BrowserRouter>
+      <Header />
       <main>
-        <Header />
         <Switch>
           <Route exact path="/" component={CourseList} />
+          <PrivateRoute path="/courses/create" component={NewCourse} />
+          <PrivateRoute path="/courses/:id/update" component={UpdateCourse} />
+          <Route path="/courses/:id" component={CourseDetails} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/signout" component={SignOut} />
-          <PrivateRoute path="/courses/create" component={NewCourse} />
-          <Route path="/courses/:id" component={CourseDetails} />
-          <PrivateRoute path="/courses/:id/update" component={UpdateCourse} />
         </Switch>
       </main>
     </BrowserRouter>
