@@ -28,7 +28,7 @@ function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     actions.signIn(emailAddress, password).then((errors) => {
-      if (errors.length) {
+      if (errors) {
         setErrors(errors);
       } else {
         history.push('/');
