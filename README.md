@@ -14,8 +14,8 @@ npm start
 ```sh
 git clone <repoUrl>
 cd <repoName>/client
-npm run seed (optional: populate db)
 npm install
+npm run seed (optional: populate db)
 npm start
 ```
 ## Details about the REST API
