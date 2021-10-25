@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#install all dependencies for root and sub_directories
+echo "Installing root dependencies....."
+echo "==========Starting============="
+npm install
+echo "Root dependencies done installing."
+echo "==============================="
+echo "Installing client and server dependencies...."
+echo "==========Starting============="
+npm run component_install
+echo "sub directory dependencies done installing."
