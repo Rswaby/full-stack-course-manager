@@ -6,8 +6,8 @@ This app creates new users and new courses. users and course share a relatioship
 ```sh
 git clone <repoUrl>
 cd <repoName>/rest_api
-npm run seed (optional: populate db)
 npm install
+npm run seed (optional: populate db)
 npm start
 ```
 ### How to run (client/frontend/UI)
