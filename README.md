@@ -63,3 +63,4 @@ const { restClient, authenticatedUser } = useContext(Context);
       });
   }, []);
 ```
+DEMO: https://course-manager-rswaby.vercel.app/
